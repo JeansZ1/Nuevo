@@ -1,4 +1,4 @@
-package com.example.nuevo;
+package com.example.nuevo.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +11,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.widget.Toast;
+
+import com.example.nuevo.R;
+import com.example.nuevo.VideoModel;
+import com.example.nuevo.adapter.FolderAdapter;
 
 import java.util.ArrayList;
 
