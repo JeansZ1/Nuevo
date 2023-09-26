@@ -19,9 +19,9 @@ import java.util.ArrayList;
 
 public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.MyViewHolder> {
 
-    private ArrayList<String> folderName;
-    private ArrayList<VideoModel> videoModels;
-    private Context context;
+    private final ArrayList<String> folderName;
+    private final ArrayList<VideoModel> videoModels;
+    private final Context context;
 
     public FolderAdapter(ArrayList<String> folderName, ArrayList<VideoModel> videoModels, Context context) {
         this.folderName = folderName;
@@ -37,18 +37,13 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.MyViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
         int index = folderName.get(position).lastIndexOf("/");
-        String folderNames = folderName.get(position).substring(index+1);
+        String folderNames = folderName.get(position).substring(index + 1);
+
         holder.name.setText(folderNames);
         holder.countVideos.setText(String.valueOf(countVideos(folderName.get(position))));
-        holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, VideoFolder.class);
-            intent.putExtra("folderName", folderName.get(position));
-            context.startActivities(new Intent[]{intent});
-        });
-
     }
 
     @Override
@@ -56,28 +51,25 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.MyViewHold
         return folderName.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    int countVideos(String folders) {
+        int count = 0;
+        for (VideoModel model : videoModels) {
+            if (model.getPath().substring(0,
+                            model.getPath().lastIndexOf("/"))
+                    .endsWith(folders)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name, countVideos;
-
-
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.folderName);
             countVideos = itemView.findViewById(R.id.videosCount);
-
         }
-    }
-
-    int countVideos(String folders){
-        int count = 0;
-        for (VideoModel model : videoModels){
-            if (model.getPath().substring(0,
-                    model.getPath().lastIndexOf("/"))
-                    .endsWith(folders)){
-                count++;
-            }
-        }
-        return count;
     }
 }

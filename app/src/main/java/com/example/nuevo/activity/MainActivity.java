@@ -20,10 +20,11 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<String> folderList = new ArrayList<>();
-    private ArrayList<VideoModel> videoList = new ArrayList<>();
+
     FolderAdapter folderAdapter;
     RecyclerView recyclerView;
+    private final ArrayList<String> folderList = new ArrayList<>();
+    private ArrayList<VideoModel> videoList = new ArrayList<>();
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -31,27 +32,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         recyclerView = findViewById(R.id.folder_recyclerview);
         videoList = fetchAllVideos(this);
-        if (folderList != null && folderList.size() > 0){
+        if (folderList != null && folderList.size() > 0 && videoList != null) {
             folderAdapter = new FolderAdapter(folderList, videoList, this);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        }else{
+            recyclerView.setAdapter(folderAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this,
+                    RecyclerView.VERTICAL, false));
+        } else {
             Toast.makeText(this, "can't find any videos folder", Toast.LENGTH_SHORT).show();
         }
+
     }
 
 
-
-    private  ArrayList<VideoModel> fetchAllVideos(Context context){
-
+    //this is the method will fetch  all videos from internal or external storage
+    private ArrayList<VideoModel> fetchAllVideos(Context context) {
         ArrayList<VideoModel> videoModels = new ArrayList<>();
-
         Uri uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-
-        String orderBy = MediaStore.Video.Media.DATE_ADDED + "DESC";
-
+        String orderBy = MediaStore.Video.Media.DATE_ADDED + " DESC";
         String[] projection = {
                 MediaStore.Video.Media._ID,
                 MediaStore.Video.Media.DATA,
@@ -60,13 +59,11 @@ public class MainActivity extends AppCompatActivity {
                 MediaStore.Video.Media.HEIGHT,
                 MediaStore.Video.Media.DURATION,
                 MediaStore.Video.Media.DISPLAY_NAME,
-                MediaStore.Video.Media.RESOLUTION
-        };
+                MediaStore.Video.Media.RESOLUTION};
 
         Cursor cursor = context.getContentResolver().query(uri, projection, null, null, orderBy);
-
-        if (cursor != null){
-            while (cursor.moveToNext()){
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
                 String id = cursor.getString(0);
                 String path = cursor.getString(1);
                 String title = cursor.getString(2);
@@ -77,11 +74,9 @@ public class MainActivity extends AppCompatActivity {
                 String width_height = cursor.getString(7);
 
                 VideoModel videoFiles = new VideoModel(id, path, title, size, resolution, duration, disName, width_height);
-
                 int slashFirstIndex = path.lastIndexOf("/");
                 String subString = path.substring(0, slashFirstIndex);
-
-                if (!folderList.contains(subString)){
+                if (!folderList.contains(subString)) {
                     folderList.add(subString);
                 }
                 videoModels.add(videoFiles);
@@ -89,8 +84,7 @@ public class MainActivity extends AppCompatActivity {
             cursor.close();
         }
         return videoModels;
+
     }
-
-
 
 }
