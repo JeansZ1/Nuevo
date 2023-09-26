@@ -1,5 +1,6 @@
 package com.example.nuevo.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -36,19 +37,16 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.MyViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         int index = folderName.get(position).lastIndexOf("/");
         String folderNames = folderName.get(position).substring(index+1);
         holder.name.setText(folderNames);
         holder.countVideos.setText(String.valueOf(countVideos(folderName.get(position))));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, VideoFolder.class);
-                intent.putExtra("folderName", folderName.get(position));
-                context.startActivities(new Intent[]{intent});
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, VideoFolder.class);
+            intent.putExtra("folderName", folderName.get(position));
+            context.startActivities(new Intent[]{intent});
         });
 
     }
@@ -58,7 +56,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.MyViewHold
         return folderName.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name, countVideos;
 
 

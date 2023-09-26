@@ -1,6 +1,7 @@
 package com.example.nuevo;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import com.example.nuevo.activity.MainActivity;
 
 
+@SuppressLint("CustomSplashScreen")
 public class SplashScreen extends AppCompatActivity {
 
     private static final int REQUEST_CODE_PERMISSION = 123;

@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.folder_recyclerview);
         videoList = fetchAllVideos(this);
-        if (folderList!=null && folderList.size()> 0 && videoList!=null){
+        if (folderList != null && folderList.size() > 0){
             folderAdapter = new FolderAdapter(folderList, videoList, this);
             recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         }else{

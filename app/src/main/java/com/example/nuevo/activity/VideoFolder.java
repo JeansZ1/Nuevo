@@ -89,16 +89,16 @@ public class VideoFolder extends AppCompatActivity {
                 String width_height = cursor.getString(8);
                 
                 //Este metodo convierte 1024 in 1MB
-                String human_can_read = null;
+                String human_can_read;
                 if(size < 1024){
                     human_can_read = String.format(context.getString(R.string.size_in_b), (double) size);
                 } else if (size < Math.pow(1024, 2)) {
                     human_can_read = String.format(context.getString(R.string.size_in_kb), (double)(size / 1024));
                     
                 } else if (size < Math.pow(1024, 3)) {
-                    human_can_read = String.format(context.getString(R.string.size_in_mb), (double) (size / Math.pow(1024, 2)));
+                    human_can_read = String.format(context.getString(R.string.size_in_mb), size / Math.pow(1024, 2));
                 }else {
-                    human_can_read = String.format(context.getString(R.string.size_in_gb), (double) (size / Math.pow(1024 , 3)));
+                    human_can_read = String.format(context.getString(R.string.size_in_gb), size / Math.pow(1024 , 3));
                 }
 
                 String duration_formatted;

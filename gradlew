@@ -159,7 +159,7 @@ if [ "$cygwin" = "true" -o "$msys" = "true" ] ; then
         i=`expr $i + 1`
     done
     case $i in
-        0) set -- ;;
+        0) set -- ;
         1) set -- "$args0" ;;
         2) set -- "$args0" "$args1" ;;
         3) set -- "$args0" "$args1" "$args2" ;;
